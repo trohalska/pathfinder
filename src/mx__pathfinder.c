@@ -2,9 +2,6 @@
 
 int main(int c, char *v[]) {
     mx_errors_pf(c, v);
-    // if (c != 2) {
-    //     mx_printstr("ckeck errors unavaliable");
-    // }
 
     char *str = mx_file_to_str(v[1]);
     char **strarr = mx_strsplit(str, '\n');

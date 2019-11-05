@@ -81,9 +81,6 @@ void mx_errors_pf(int c, char *v[]) {
                 mx_printerr_line(i);
             }
         }
-    mx_print_strarr(p1, "_");
-    mx_print_strarr(p23, "_");
-
         mx_del_strarr(&p1);
         mx_del_strarr(&p23);
     }
