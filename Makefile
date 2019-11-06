@@ -8,14 +8,14 @@ INCI =		$(addprefix inc/, libmxpath.h)
 
 # --------- Source files ----------------
 
-MAIN = 		mx__pathfinder.c
+MAIN = 		main.c
 
 SRC = 			mx_printerr.c			\
 				mx_atoi.c				\
 				mx_isdigit.c			\
 
 SRCS =  	$(addprefix src/,			\
-				mx__pathfinder.c		\
+				main.c		\
 				mx_printerr.c			\
 				mx_atoi.c				\
 				mx_isdigit.c			\

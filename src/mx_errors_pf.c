@@ -1,12 +1,6 @@
 #include "libmxpath.h"
 
-void mx_printerr_line(int i) {
-    mx_printerr("error: line ");
-    mx_printerr(mx_itoa(i));
-    mx_printerr(" isn't valid\n");
-    mx_printerr("for checking islands\n");
-    exit(1);
-}
+static void mx_printerr_line(int i);
 
 void mx_errors_pf(int c, char *v[]) {
 //------------------------------------ chech for arguments = 2
@@ -15,8 +9,6 @@ void mx_errors_pf(int c, char *v[]) {
         exit(1);
     }
     int file = open(v[1], O_RDONLY);
-
-    printf("%s\n", "\x1b[32m--ckeck 1 complete--chech for arguments = 2\033[0m");
 //------------------------------------ chech if v[1] exists
     if (file < 0) {            
         mx_printerr("error: file ");
@@ -24,7 +16,6 @@ void mx_errors_pf(int c, char *v[]) {
         mx_printerr(" doesn't exist\n");
         exit(1);
     }
-    printf("%s\n", "\x1b[32m--ckeck 2 complete--chech if v[1] exists\033[0m");
 //------------------------------------ chech if v[1] isn't empty
     char buf[1];
     int n = read(file, buf, sizeof(buf));
@@ -35,8 +26,6 @@ void mx_errors_pf(int c, char *v[]) {
         exit(1);
     }
     close(file);
-
-    printf("%s\n", "\x1b[32m--ckeck 3 complete--chech if v[1] isn't empty\033[0m");
 //------------------------------------ chech if line1 is digit
     char *str = mx_file_to_str(v[1]);
     char **strarr = mx_strsplit(str, '\n');
@@ -49,7 +38,6 @@ void mx_errors_pf(int c, char *v[]) {
             exit(1);
         }
     }
-    printf("%s\n", "\x1b[32m--ckeck 4 complete--chech if line1 is digit\033[0m");
 //------------------------------------ chech if numb of isl is correct
     int countlines = 0;
     for (int i = 0; strarr[i]; i++) {
@@ -59,7 +47,6 @@ void mx_errors_pf(int c, char *v[]) {
         mx_printerr("error: invalid number of islands\n");
         exit(1);
     }
-    printf("%s\n", "\x1b[32m--ckeck 5 complete--chech if numb of isl is correct\033[0m");
 //------------------------------------ chech if line is correct
     for (int i = 1; i < countlines; i++) {
         char **p1 = mx_strsplit(strarr[i], '-');
@@ -84,6 +71,13 @@ void mx_errors_pf(int c, char *v[]) {
         mx_del_strarr(&p1);
         mx_del_strarr(&p23);
     }
-    printf("%s\n", "\x1b[32m--ckeck 6 complete--chech if line is correct\033[0m");
     mx_del_strarr(&strarr);
+}
+
+static void mx_printerr_line(int i) {
+    mx_printerr("error: line ");
+    mx_printerr(mx_itoa(i));
+    mx_printerr(" isn't valid\n");
+    mx_printerr("for checking islands\n");
+    exit(1);
 }
