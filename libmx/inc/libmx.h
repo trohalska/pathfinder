@@ -13,11 +13,15 @@ typedef struct s_list {
 	struct s_list *next;
 } t_list;
 
-//---------------------------------- MY pack - 5
+//---------------------------------- MY pack
 bool mx_isspace(char c);
+bool mx_isdigit(int c);
+bool mx_isalpha(int c);
 bool mx_cmp(void *a, void *b);
 int mx_count_words_isspace(const char *str, int *kwl);
 int mx_strncmp(const char *s1, const char *s2, int n);
+void mx_printerr(const char *s);
+int mx_atoi(const char *str);
 void mx_printlist(t_list *list);
 
 //---------------------------------- utils pack - 14

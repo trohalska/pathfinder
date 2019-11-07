@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 bool mx_isdigit(int c) {
 	bool i = false;

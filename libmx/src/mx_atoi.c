@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 int mx_atoi(const char *str) {
 	int i = 0;

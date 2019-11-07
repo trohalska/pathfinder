@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 bool mx_isalpha(int c) {
 	if ((c >= 'A' && c <= 'Z') 

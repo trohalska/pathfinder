@@ -38,17 +38,8 @@ void mx_errors_pf(int c, char *v[]) {
             exit(1);
         }
     }
-//------------------------------------ chech if numb of isl is correct
-    int countlines = 0;
-    for (int i = 0; strarr[i]; i++) {
-        countlines++;
-    }
-    if (mx_atoi(strarr[0]) != countlines - 1) {
-        mx_printerr("error: invalid number of islands\n");
-        exit(1);
-    }
 //------------------------------------ chech if line is correct
-    for (int i = 1; i < countlines; i++) {
+    for (int i = 1; strarr[i]; i++) {
         char **p1 = mx_strsplit(strarr[i], '-');
         char **p23 = mx_strsplit(p1[1], ',');
         // check word 1
@@ -68,6 +59,10 @@ void mx_errors_pf(int c, char *v[]) {
                 mx_printerr_line(i);
             }
         }
+
+
+
+
         mx_del_strarr(&p1);
         mx_del_strarr(&p23);
     }
