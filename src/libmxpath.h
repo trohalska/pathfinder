@@ -10,32 +10,20 @@
 //#include "libmx/inc/libmx.h"
 #include "../libmx/inc/libmx.h"
 //#include <string.h>
-//------------------------------------------------------
-/* Определяем элемент списка */
-// typedef struct list_node {
-//     struct list_node *next;
-//     void *data;
-// } list_node_t;
 
-// /* Определяем сам список */
-// typedef struct list {
-//     int size; /* Размер списка */
-//     list_node_t *head;
-//     list_node_t *tail;
-// } list_t;
+typedef struct s_alist_node {
+    int dest;
+    struct s_alist_node *next;
+} t_alist_node;
 
-// // Определим структуру данных для нашего дерева:
-// typedef struct tree_node {
-//     struct tree_node * left; /* указатель на левую вершину */
-//     struct tree_node * rigth; /* указатель на правую вершину */
-//     void *data; /* указатель на хранимые в вершине данные */
-//     int mark;  /* необходимая при обходе пометка */
-// } tree_node_t;
+typedef struct s_alist {
+    struct s_alist_onenode *head;
+} t_alist;
 
-// // Так же нужно определить указатель на функцию которая быдет 
-// // вызывается для обработки данных находящихся в обрабатываемой вершине.
-// typedef void (*visit_node_f)(tree_node_t *node, void *visit_data);
-//------------------------------------------------------
+// typedef struct s_graph {
+//     int V;
+//     struct s_alist *array;
+// } t_graph;
 
 
 //----- local specific functions only for pathfinder

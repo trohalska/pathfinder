@@ -1,33 +1,20 @@
 #include "libmxpath.h"
 
-int visited[10];    //n is no of vertices and graph is sorted in array G[10][10]   
-    int i,j;
-
-void DFS(int i)
-{
-    int j;
-	printf("\n%d", i);
-    visited[i] = 1;
-	
-	for (j = 0; j < 10; j++)
-       if (!visited[j] && matrix[i][j] != 0)
-            DFS(j);
-}
-
 int main(int c, char *v[]) {
+    // find all errors
     mx_pf_errors(c, v);
+
     char *str = mx_file_to_str(v[1]);                   //-----create 1
     int G = mx_atoi(str); // count of islands
+    // create line of names
     char **arr_islands = mx_get_arr_islands(G, str);    //-----create 2
+     // create adj matrix
     int **matrix = mx_get_matrix(G, str, arr_islands);  //-----create 3  
     
-    //visited is initialized to zero
-    for(i = 0; i < G; i++)
-        visited[i] = 0;
-
-    DFS(0);
+    
 
 // PRINT-----------------------------
+    printf("%s\n", "\x1b[32m---------------------\033[0m");
     printf("%s\n", str);
     printf("%s\n", "---------------------");
     for (int i = 0; i < G; i++) {
@@ -36,14 +23,11 @@ int main(int c, char *v[]) {
         }
         printf("%s", "\n");
     }
-    printf("G = %d\n", G);
     printf("%s\n", "---------------------");
     for (int i = 0; i < G; i++) {
-        printf("- %s\n", arr_islands[i]);
+        printf("%d - %s\n", i, arr_islands[i]);
     }
-    for (int i = 0; i < G; i++) {
-        printf("- %s\n", arr_islands[i]);
-    }
+    printf("%s\n", "\x1b[32m---------------------\033[0m");
 // PRINT-----------------------------
     mx_strdel(&str);                                     //-----d 1
     return 0;
