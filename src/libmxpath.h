@@ -25,6 +25,7 @@ typedef struct s_alist {
 //     struct s_alist *array;
 // } t_graph;
 
+int **create_matrix(int G, int fillin);
 
 //----- local specific functions only for pathfinder
 
@@ -32,5 +33,6 @@ void mx_pf_errors(int c, char *v[]);
 char **mx_get_arr_islands(int G, char *str);
 int **mx_get_matrix(int G, char *str, char **arr_islands);
 char **mx_pf_split(const char *s);
+void mx_alg_deijkstra(int **matrix, int n, int startnode);
 
 #endif

@@ -1,12 +1,9 @@
 #include "libmxpath.h"
 
-static int **create_matrix(int G);
-
 int **mx_get_matrix(int G, char *str, char **arr_islands)
 {
-    int **matrix = create_matrix(G); //--------------- c-2
+    int **matrix = create_matrix(G, 0); //--------------- c-2
     char **strarr = mx_strsplit(str, '\n'); //--------------- c-3
-
     
     for (int i = 0; strarr[i]; i++) {
         int mi = 0;
@@ -27,17 +24,3 @@ int **mx_get_matrix(int G, char *str, char **arr_islands)
     mx_del_strarr(&strarr);//--------------- d-3
     return matrix;//--------------- r-2
 }
-
-static int **create_matrix(int G) // 0-matrix
-{
-    int **str = (int **) malloc(G * sizeof(int *));
-    for (int i = 0; i < G; i++) {
-        int *s = malloc(G * sizeof(int));
-        for (int j = 0; j < G; j++) {
-            s[j] = 0;
-        }
-        str[i] = s;
-    }
-    return str;
-}
-

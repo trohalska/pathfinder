@@ -9,25 +9,24 @@ int main(int c, char *v[]) {
     // create line of names
     char **arr_islands = mx_get_arr_islands(G, str);    //-----create 2
      // create adj matrix
-    int **matrix = mx_get_matrix(G, str, arr_islands);  //-----create 3  
-    
-    
+    int **matrix = mx_get_matrix(G, str, arr_islands);  //-----create 3
+    mx_alg_deijkstra(matrix, G, 0);    
 
 // PRINT-----------------------------
-    printf("%s\n", "\x1b[32m---------------------\033[0m");
-    printf("%s\n", str);
-    printf("%s\n", "---------------------");
-    for (int i = 0; i < G; i++) {
-        for (int j = 0; j < G; j++) {
-            printf("%d\t", matrix[i][j]);
-        }
-        printf("%s", "\n");
-    }
-    printf("%s\n", "---------------------");
-    for (int i = 0; i < G; i++) {
-        printf("%d - %s\n", i, arr_islands[i]);
-    }
-    printf("%s\n", "\x1b[32m---------------------\033[0m");
+    // printf("%s\n", "\x1b[32m---------------------\033[0m");
+    // printf("%s\n", str);
+    // printf("%s\n", "---------------------");
+    // for (int i = 0; i < G; i++) {
+    //     for (int j = 0; j < G; j++) {
+    //         printf("%d\t", matrix[i][j]);
+    //     }
+    //     printf("%s", "\n");
+    // }
+    // printf("%s\n", "---------------------");
+    // for (int i = 0; i < G; i++) {
+    //     printf("%d - %s\n", i, arr_islands[i]);
+    // }
+    // printf("%s\n", "\x1b[32m---------------------\033[0m");
 // PRINT-----------------------------
     mx_strdel(&str);                                     //-----d 1
     return 0;
