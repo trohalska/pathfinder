@@ -87,7 +87,7 @@ void mx_alg_deijkstra(int **matrix, int g, int startnode)
 	}
 
 	int k = 0;
-	mx_printstr("\n\n");
+	//mx_printstr("\n\n");
 	while (k != g){
 		printf("%d ", pred[k]);
 		k++;

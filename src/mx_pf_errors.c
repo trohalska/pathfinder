@@ -82,29 +82,6 @@ void mx_pf_errors(int c, char *v[]) {
         }
         mx_del_strarr(&tmp);
     }
-//------------------------------------ chech if numb of isl is correct
-    int G1 = mx_atoi(str);
-    int G = 0;
-    char *str1 = mx_strdup(str);
-    for (int j = 1; strarr[j]; j++) {
-        char **tmp = mx_pf_split(strarr[j]);
-        if (mx_count_substr(str1, tmp[0]) > 0) {
-            G += 1;
-            str1 = mx_replace_substr(str1, tmp[0], " ");
-        }
-        if (mx_count_substr(str1, tmp[1]) > 0) {
-            G += 1;
-            str1 = mx_replace_substr(str1, tmp[1], " ");
-        }
-        mx_del_strarr(&tmp);
-    }
-    mx_strdel(&str1);
-    
-    if (G != G1) {
-        mx_printerr("error: invalid number of islands\n");
-        exit(1);
-    }
-
     mx_strdel(&str);
     mx_del_strarr(&strarr);
 }
