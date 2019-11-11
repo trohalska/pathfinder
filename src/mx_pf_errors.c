@@ -1,23 +1,39 @@
 #include "libmxpath.h"
 
-static void mx_printerr_line(int i);
+static void printerr_line(int i);
+static void INVLD_LINE_ASCII(char **strarr);
+static void INVLD_LINE_INPUT(char **strarr);
+static void INVLD_LINE1_DIGIT(char *strarr);
+static void INVLD_FILE(int c, char *v[]);
 
 void mx_pf_errors(int c, char *v[]) {
-//------------------------------------ chech for arguments = 2
-    if (c != 2) {
+
+    INVLD_FILE(c, v); // chech file
+
+    char *str = mx_file_to_str(v[1]);
+    char **strarr = mx_strsplit(str, '\n');
+    
+    INVLD_LINE1_DIGIT(strarr[0]); // chech if line1 is digit
+    INVLD_LINE_INPUT(strarr); // chech if line is correct '-' ','
+    INVLD_LINE_ASCII(strarr); // chech if line is correct ascii
+
+    mx_strdel(&str); // clean all leaks
+    mx_del_strarr(&strarr);
+}
+
+static void INVLD_FILE(int c, char *v[]) {
+    if (c != 2) { // chech for arguments = 2
         mx_printerr("usage: ./pathfinder [filename]\n");
         exit(1);
     }
     int file = open(v[1], O_RDONLY);
-//------------------------------------ chech if v[1] exists
-    if (file < 0) {            
+    if (file < 0) { // chech if v[1] exists
         mx_printerr("error: file ");
         mx_printerr(v[1]);
         mx_printerr(" doesn't exist\n");
         exit(1);
     }
-//------------------------------------ chech if v[1] isn't empty
-    char buf[1];
+    char buf[1]; // chech if v[1] isn't empty
     int n = read(file, buf, sizeof(buf));
     if (n <= 0) {
         mx_printerr("error: file ");
@@ -26,17 +42,18 @@ void mx_pf_errors(int c, char *v[]) {
         exit(1);
     }
     close(file);
-//------------------------------------ chech if line1 is digit
-    char *str = mx_file_to_str(v[1]);
-    char **strarr = mx_strsplit(str, '\n');
+}
 
-    for (int i = 1; i < mx_strlen(strarr[0]); i++) {
-        if (!mx_isdigit(strarr[0][i])) {
+static void INVLD_LINE1_DIGIT(char *strarr) {
+    for (int i = 1; i < mx_strlen(strarr); i++) {
+        if (!mx_isdigit(strarr[i])) {
             mx_printerr("error: line 1 isn't valid\n");
             exit(1);
         }
     }
-//------------------------------------ chech if line is correct '-' ','
+}
+
+static void INVLD_LINE_INPUT(char **strarr) {
     for (int i = 1; strarr[i]; i++) {
         int count_space = 0;
         int count_comma = 0;
@@ -58,35 +75,38 @@ void mx_pf_errors(int c, char *v[]) {
             else break;
         }
         if (count_comma != 1 || count_space != 1) {
-            mx_printerr_line(i);
+            printerr_line(i);
             exit(1);
         }
     }
-//------------------------------------ chech if line is correct digits
+}
+
+static void INVLD_LINE_ASCII(char **strarr) {
+    char **tmp = NULL;
     for (int i = 1; strarr[i]; i++) {
-        char **tmp = mx_pf_split(strarr[i]);
+        tmp = mx_pf_split(strarr[i]);
+        if (tmp[0][0] == '\0' || tmp[1][0] == '\0' || tmp[2][0] == '\0')
+            printerr_line(i);
         for (int j = 0; j < mx_strlen(tmp[0]); j++) {
             if (!mx_isalpha(tmp[0][j])) {
-                mx_printerr_line(i);
+                printerr_line(i);
             }
         }
         for (int j = 0; j < mx_strlen(tmp[1]); j++) {
             if (!mx_isalpha(tmp[1][j])) {
-                mx_printerr_line(i);
+                printerr_line(i);
             }
         }
         for (int j = 0; j < mx_strlen(tmp[2]); j++) {
             if (!mx_isdigit(tmp[2][j])) {
-                mx_printerr_line(i);
+                printerr_line(i);
             }
         }
         mx_del_strarr(&tmp);
     }
-    mx_strdel(&str);
-    mx_del_strarr(&strarr);
 }
 
-static void mx_printerr_line(int i) {
+static void printerr_line(int i) {
     mx_printerr("error: line ");
     mx_printerr(mx_itoa(i + 1));
     mx_printerr(" isn't valid\n");
