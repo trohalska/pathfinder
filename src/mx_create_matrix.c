@@ -1,6 +1,6 @@
 #include "libmxpath.h"
 
-int **create_matrix(int G, int fillin)
+int **mx_create_matrix(int G, int fillin)
 {
     int **str = (int **) malloc(G * sizeof(int *));
     for (int i = 0; i < G; i++) {

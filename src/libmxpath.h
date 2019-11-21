@@ -25,7 +25,7 @@ typedef struct s_alist {
 //     struct s_alist *array;
 // } t_graph;
 
-int **create_matrix(int G, int fillin);
+int **mx_create_matrix(int G, int fillin);
 void mx_del_arr_matrix_int(int ***arr);
 void mx_del_matrix_int(int **str);
 
@@ -35,6 +35,8 @@ void mx_pf_errors(int c, char *v[]);
 char **mx_get_arr_islands(int G, char **strarr);
 int **mx_get_matrix(int G, char *str, char **arr_islands);
 char **mx_pf_split(const char *s);
-void mx_alg_deijkstra(int **matrix, int n, int startnode);
+int **mx_create_dex_matrix(int **matrix, int g);
+void mx_alg_deijkstra(int **dex, int *distance, int *pred, int g, int startnode);
+void mx_print_path(int *distance, int *pred, int g, int startnode, char **arr_islands);
 
 #endif

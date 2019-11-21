@@ -2,7 +2,7 @@
 
 int **mx_get_matrix(int G, char *str, char **arr_islands)
 {
-    int **matrix = create_matrix(G, 0); //--------------- c-2
+    int **matrix = mx_create_matrix(G, 0); //--------------- c-2
     char **strarr = mx_strsplit(str, '\n'); //--------------- c-3
     
     for (int i = 0; strarr[i]; i++) {
