@@ -17,6 +17,7 @@ t_all_paths *mx_get_all_paths(int **matrix, int G)
         pred = malloc (G * sizeof(int));
 
         mx_alg_deijkstra(dex, distance, pred, G, startnode);
+        
         for (int i = startnode + 1; i < G; i++) {
             if (i != startnode) {
                 int count = 0;
@@ -24,6 +25,7 @@ t_all_paths *mx_get_all_paths(int **matrix, int G)
                 mx_push_back_path(&paths, count, route, &distance[i]);            
             }
         }
+       
 
                     
                     int k = 0;
