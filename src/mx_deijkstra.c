@@ -24,8 +24,12 @@ void mx_alg_deijkstra(int **dex, int *distance, int *pred, int g, int startnode)
 			if (distance[i] < mindistance && !visited[i]) {
 				mindistance = distance[i];
 				nextnode = i;
-			}			
-			//check if a better path exists through nextnode			
+			}
+			if (distance[i] == mindistance && !visited[i]) {
+				mindistance = distance[i];
+				nextnode = i;
+			}
+			//check if a better path exists through nextnode
 			visited[nextnode] = 1;
 			for (i = 0; i < g; i++)
 				if (!visited[i])

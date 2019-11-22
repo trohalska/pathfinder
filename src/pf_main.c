@@ -1,5 +1,23 @@
 #include "libmxpath.h"
 
+void mx_printpathstest(t_all_paths *paths)
+{
+    t_all_paths *q = paths;
+
+    if (paths != NULL) {
+        while (q->next != NULL) {    
+            mx_printint(q->distance);
+            mx_printstr(" ");
+            q = q->next;
+        }
+        mx_printint(q->distance);
+    }
+    else {
+        mx_printstr("NULL");
+    }
+    mx_printstr("\n");    
+}
+
 int main(int c, char *v[]) 
 {
     mx_pf_errors(c, v); // find all errors
@@ -12,27 +30,10 @@ int main(int c, char *v[])
     int G = mx_atoi(str); // count of islands
     char **arr_islands = mx_get_arr_islands(G, strarr); // create line of names
     int **matrix = mx_get_matrix(G, str, arr_islands); // create adj matrix
-    int **dex = mx_create_dex_matrix(matrix, G); // create dex matrix
 
-    int *distance = malloc (G * sizeof(int));
-    int *pred = malloc (G * sizeof(int));
-
-    int startnode = 0;
-    mx_alg_deijkstra(dex, distance, pred, G, startnode);
-    mx_print_path(distance, pred, G, startnode, arr_islands);
-
-    mx_printstr("\n\n");
-    int k = 0;
-	for (k = 0; k != G; k++){
-		printf("%d ", pred[k]);
-	}	
-	for (k = 0; k != G; k++){
-		printf("%d ", distance[k]);
-	}
-
-
-
-
+    t_all_paths *paths = mx_get_all_paths(matrix, G);
+    //mx_printpathstest(paths);
+    mx_printpaths(paths, matrix, arr_islands); 
 
 // -------------------INPUT-------------------
     printf("\n%s\n", "\x1b[32m-------------------INPUT-------------------\033[0m");
@@ -42,7 +43,7 @@ int main(int c, char *v[])
             if (matrix[i][j] == 0)
                 printf("%s\t", "-");
             else
-                printf("%d\t", dex[i][j]);
+                printf("%d\t", matrix[i][j]);
         }
         printf("%s", "\n");
     }
@@ -56,7 +57,7 @@ int main(int c, char *v[])
     mx_del_strarr(&strarr);
     mx_strdel(arr_islands);
     mx_del_matrix_int(matrix);
-    mx_del_matrix_int(dex);
+    //mx_del_matrix_int(dex);
     //mx_strdel(distance);
     //mx_strdel(pred);
     
