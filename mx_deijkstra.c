@@ -1,25 +1,17 @@
 #include "libmxpath.h"
 
-int **mx_alg_deijkstra(int **dex, int *distance, int g, int startnode)
+void mx_alg_deijkstra(int **dex, int *distance, int *pred1, int g, int startnode)
 {
 	int INFINITY = 9999;
-	int visited[g], count, mindistance, nextnode, i;
-
-	int **pred = malloc (3 * sizeof(int *));
-	int *tmp = malloc (sizeof(int));
-	int *tmp1 = malloc (sizeof(int));
-	pred[0] = tmp;
-	pred[1] = tmp1;
-	pred[2] = NULL;	
+	int visited[g], count, mindistance, nextnode, i, pred[g];
+	//pred[] stores the predecessor of each node
+	//count gives the number of nodes seen so far	
 	
 	//initialize pred[], distance[] and visited[]
 	for (i = 0; i < g; i++) {
 		distance[i] = dex[startnode][i];
-		// for (int j = 0; pred[j]; j++) {
-		// 	pred[j][i] = startnode;
-		// }
-		pred[0][i] = startnode;
-		pred[1][i] = startnode;
+		pred[i] = startnode;
+		pred1[i] = startnode;
 		visited[i] = 0;
 	}
 	distance[startnode] = 0;
@@ -40,14 +32,13 @@ int **mx_alg_deijkstra(int **dex, int *distance, int g, int startnode)
 			if (!visited[i]) {
 				if (mindistance + dex[nextnode][i] < distance[i]) {
 					distance[i] = mindistance + dex[nextnode][i];
-					pred[0][i] = nextnode;
-					pred[1][i] = nextnode;
+					pred[i] = nextnode;
+					pred1[i] = nextnode;
 				}
 				if (mindistance + dex[nextnode][i] == distance[i]) {
-					pred[1][i] = nextnode;
+					pred1[i] = nextnode;
 				}
 			}
 		count++;
 	}
-	return pred;
 }

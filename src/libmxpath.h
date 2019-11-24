@@ -26,6 +26,11 @@ void mx_del_matrix_int(int **str);
 
 //----- local specific functions only for pathfinder
 
+typedef struct s_pred {
+    int *pred;
+    struct s_pred *next;
+} t_pred;
+
 typedef struct s_all_paths {
     int number;
     int count;
@@ -39,7 +44,7 @@ char **mx_get_arr_islands(int G, char **strarr);
 int **mx_get_matrix(int G, char *str, char **arr_islands);
 char **mx_pf_split(const char *s);
 int **mx_create_dex_matrix(int **matrix, int g);
-void mx_alg_deijkstra(int **dex, int *distance, int *pred, int g, int startnode);
+int **mx_alg_deijkstra(int **dex, int *distance, int g, int startnode);
 t_all_paths *mx_get_all_paths(int **matrix, int G);
 void mx_printpaths(t_all_paths *paths, int **matrix, char **arr_islands);
 

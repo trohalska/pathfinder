@@ -1,72 +1,70 @@
 #include "libmxpath.h"
 
-static int *get_route(int i, int *pred, int startnode, int *count);
+static int *get_route(int i, t_pred *predstruct, int startnode, int *count);
 static t_all_paths *mx_create_path(int c, int *route, int *d);
 static void mx_push_back_path(t_all_paths **paths, int c, int *route, int *d);
+
+void mx_printpred(t_pred *list, int g) {
+    t_pred *q = list;
+    while (q != NULL) {  
+		for (int i = 0; i < g; i++){
+			mx_printint(q->pred[i]);
+			mx_printstr(" ");
+		}  
+        mx_printstr("\n");
+        q = q->next;
+    }
+	if (q == NULL)
+		mx_printstr("NULL\n");
+}
+ 
 
 t_all_paths *mx_get_all_paths(int **matrix, int G)
 {
     int *distance;
-    int **pred;
+    t_pred *predstruct;
     t_all_paths *paths = NULL;
     int **dex = mx_create_dex_matrix(matrix, G); // create dex matrix
 
     for (int startnode = 0; startnode < G - 1; startnode++) {
 
         distance = malloc (G * sizeof(int));
-        //pred = malloc (G * sizeof(int));
+        predstruct = mx_alg_deijkstra(dex, distance, G, startnode);
 
-        pred = mx_alg_deijkstra(dex, distance, G, startnode);
-
-        for (int k = 0; k != G; k++){
-            mx_printstr(" ");
-            mx_printint(pred[0][k]);
-        }
-        mx_printstr("\n");
-
-        for (int k = 0; k != G; k++){
-            mx_printstr(" ");
-            mx_printint(pred[1][k]);
-        }
-        mx_printstr("\n");
-
-        mx_printstr("\n");
-        for (int k = 0; k != G; k++){
-            mx_printstr(" ");
-            mx_printint(distance[k]);
-        }
-        mx_printstr("\n---\n");
-
+        mx_printpred(predstruct, G);
         
         for (int i = startnode + 1; i < G; i++) {
             if (i != startnode) {
-
                 int count = 0;
-                int *route = NULL;
-
-                count = 0;                
-                route = get_route(i, pred[0], startnode, &count);
+                //predstruct = predstruct->next;
+                int *route = get_route(i, predstruct, startnode, &count);
                 mx_push_back_path(&paths, count, route, &distance[i]);
 
-                count = 0;
-                route = get_route(i, pred[1], startnode, &count);
-                mx_push_back_path(&paths, count, route, &distance[i]);
-                    
+                
             }
         }
+
+                    mx_printstr("\n");
+                    for (int k = 0; k != G; k++){
+                        mx_printstr(" ");
+                        mx_printint(distance[k]);
+                    }
+                    mx_printstr("\n---\n");
+                    
+
         free(distance);
-        mx_del_matrix_int(pred);
+        //free(pred);        
     }
     return paths;
 }
 
-static int *get_route(int i, int *pred, int startnode, int *count)
+static int *get_route(int i, t_pred *predstruct, int startnode, int *count)
 {
     int j = i;
     int k = 0;
 
     while (j != startnode) {
-        j = pred[j];
+        j = predstruct->pred[j];
         k++;
     }
     j = i;
@@ -74,13 +72,19 @@ static int *get_route(int i, int *pred, int startnode, int *count)
     int *route = malloc(k * sizeof(int));
     route[k] = i;
     while (j != startnode && k > 0) {
-        j = pred[j];
+        j = predstruct->pred[j];
         k--;
         route[k] = j;
     }
+
+    // for (int i = 0; i < *count; i++) {
+    //     mx_printint(route[i]);
+
+    // }
+    // mx_printstr("\n");
+
     return route;
 }
-
 
 static t_all_paths *mx_create_path(int c, int *route, int *d)
 {
