@@ -1,40 +1,40 @@
 NAME =		pathfinder
-NAMEA =		libmx.a
+
 CFLAGS =	-std=c11 -Wall -Wextra -Werror -Wpedantic
 
 # --------- Header files ----------------
-INC =		libmxpath.h
-INCI =		$(addprefix inc/, libmxpath.h)
+INC =		libmx.h
+INCI =		$(addprefix inc/, 			\
+			libmx.h)
 
 # --------- Source files ----------------
 
-MAIN = 		main.c
-
-SRC = 			mx_printerr.c			\
-				mx_atoi.c				\
-				mx_isdigit.c			\
+SRC = 		pf_main.c mx_create_dex_matrix.c mx_deijkstra.c mx_get_all_paths.c mx_get_arr_islands.c mx_get_matrix.c mx_pf_errors.c mx_pf_split.c mx_printpaths.c
 
 SRCS =  	$(addprefix src/,			\
-				main.c		\
-				mx_printerr.c			\
-				mx_atoi.c				\
-				mx_isdigit.c			\
-			)
+			pf_main.c mx_create_dex_matrix.c mx_deijkstra.c mx_get_all_paths.c mx_get_arr_islands.c mx_get_matrix.c mx_pf_errors.c mx_pf_split.c mx_printpaths.c)
 
 # --------- Object files ----------------
-OBJ = 			mx_printerr.o			\
-				mx_atoi.o				\
-				mx_isdigit.o
+OBJ = 		pf_main.o mx_create_dex_matrix.o mx_deijkstra.o mx_get_all_paths.o mx_get_arr_islands.o mx_get_matrix.o mx_pf_errors.o mx_pf_split.o mx_printpaths.o
 
-all: install clean
+
+# ---------------------------------------
+all: install uninstall
+
 install:
+	@ make install -sC libmx/
 	@ cp $(SRCS) $(INCI) .
-	@ clang $(CFLAGS) -c $(SRC) -I $(INC)
-	@ clang $(CFLAGS) $(NAMEA) $(MAIN) $(OBJ) -o $(NAME)
+	@ clang $(CFLAGS) -c $(SRC)
+	@ clang $(CFLAGS) $(OBJ) libmx/libmx.a -o $(NAME)
 	@ mkdir ./obj
 	@ mv $(OBJ) ./obj
+
 uninstall:
-	@ rm -rf $(NAME) ./obj
-clean:
-	@ rm -rf $(INC) $(SRC) $(MAIN) 
-reinstall: uninstall all
+	@ make uninstall -sC libmx/
+	@ rm -rf $(INC) $(SRC) ./obj
+
+clean: uninstall
+	@ make clean -sC libmx/
+	@ rm -rf $(NAME)
+	
+reinstall: clean all

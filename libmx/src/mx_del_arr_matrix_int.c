@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 void mx_del_arr_matrix_int(int ***arr) {
     if (arr == NULL) return;

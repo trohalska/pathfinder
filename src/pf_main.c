@@ -1,78 +1,23 @@
-#include "libmxpath.h"
-
-void mx_printpathstest(t_all_paths *paths)
-{
-    t_all_paths *q = paths;
-
-    if (paths != NULL) {
-        while (q->next != NULL) {    
-            mx_printint(q->distance);
-            mx_printstr(" ");
-            q = q->next;
-        }
-        mx_printint(q->distance);
-    }
-    else {
-        mx_printstr("NULL");
-    }
-    mx_printstr("\n");    
-}
+#include "libmx.h"
 
 int main(int c, char *v[]) 
 {
     mx_pf_errors(c, v); // find all errors
-
-    //if (c > 0) printf("%d", mx_strlen(v[0]));
-
     char *str = mx_file_to_str(v[1]);
     char **strarr = mx_strsplit(str, '\n');
-
     int G = mx_atoi(str); // count of islands
-    char **arr_islands = mx_get_arr_islands(G, strarr); // create line of names
+    // create line of names & check for line1
+    char **arr_islands = mx_get_arr_islands(G, strarr);
     int **matrix = mx_get_matrix(G, str, arr_islands); // create adj matrix
+    int **dex = mx_create_dex_matrix(matrix, G); // create dex matrix
+    t_all_paths *paths = mx_get_all_paths(dex, G); // get linled list of paths
+    mx_printpaths(paths, matrix, arr_islands); // print paths
 
-    t_all_paths *paths = mx_get_all_paths(matrix, G);
-    //mx_printpathstest(paths);
-    mx_printpaths(paths, matrix, arr_islands); 
-
-// -------------------INPUT-------------------
-    printf("\n%s\n", "\x1b[32m-------------------INPUT-------------------\033[0m");
-    /*printf("%s\n", str);*/
-    for (int i = 0; i < G; i++) {
-        for (int j = 0; j < G; j++) {
-            if (matrix[i][j] == 0)
-                printf("%s\t", "-");
-            else
-                printf("%d\t", matrix[i][j]);
-        }
-        printf("%s", "\n");
-    }
-    printf("%s\n", "---------------------");
-    for (int i = 0; i < G; i++) {
-        printf("%d - %s\n", i, arr_islands[i]);
-    }
-//-------------------INPUT-------------------
-
-    mx_strdel(&str);
+    mx_strdel(&str); // clean all created
     mx_del_strarr(&strarr);
     mx_strdel(arr_islands);
     mx_del_matrix_int(matrix);
-    //mx_del_matrix_int(dex);
-    //mx_strdel(distance);
-    //mx_strdel(pred);
-    
-
-    // printf("%s\n", "\x1b[32m-------------------LEAKS-------------------\033[0m");
-    
-    // if (*matrix != NULL)
-    //     printf("%s\n", "\x1b[35m matrix \033[0m");
-    // if (*arr_islands!= NULL)
-    //     printf("%s\n", "\x1b[35m arr_islands \033[0m");
-    // if (str != NULL)
-    //     printf("%s\n", "\x1b[35m str \033[0m");
-    // system("leaks -q a");
+    mx_del_matrix_int(dex);
 
     return 0;
 }
-
-// printf("%s\n", "\x1b[32m--ckeck 6 complete--chech if line is correct\033[0m");

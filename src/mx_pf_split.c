@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 char **mx_pf_split(const char *s) {
     if (!s) return NULL;

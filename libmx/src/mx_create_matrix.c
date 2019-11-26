@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 int **mx_create_matrix(int G, int fillin)
 {

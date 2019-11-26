@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 static void print_border();
 static void print_path(t_all_paths *paths, char **arr_islands);
@@ -19,7 +19,7 @@ void mx_printpaths(t_all_paths *paths, int **matrix, char **arr_islands)
         }
     }
     else {
-        mx_printstr("paths == NULL\n");
+        mx_printstr("paths == 0 (NULL)\n");
     }
 }
 
@@ -35,16 +35,16 @@ static void print_path(t_all_paths *paths, char **arr_islands)
     mx_printstr("Path: ");
     mx_printstr(arr_islands[paths->path[0]]);
     mx_printstr(" -> ");
-    mx_printstr(arr_islands[paths->path[paths->count]]);
+    mx_printstr(arr_islands[paths->path[paths->count - 1]]);
     mx_printstr("\n");
 }
 
 static void print_route(t_all_paths *paths, char **arr_islands)
 {   
     mx_printstr("Route: ");
-    for (int i = 0; i <= paths->count; i++) {
+    for (int i = 0; i < paths->count; i++) {
         mx_printstr(arr_islands[paths->path[i]]);
-        if (i == paths->count) break;
+        if (i == paths->count - 1) break;
         mx_printstr(" -> ");
     }
     mx_printstr("\n");
@@ -54,10 +54,10 @@ static void print_distance(t_all_paths *paths, int **matrix)
 {   
     int j = 1;
     mx_printstr("Distance: ");
-    if (paths->count > 1) {
-        while (j <= paths->count) {
+    if (paths->count > 2) {
+        while (j < paths->count) {
             mx_printint(matrix[paths->path[j - 1]][paths->path[j]]);
-            if ((j + 1) > paths->count) break;
+            if (j == paths->count - 1) break;
             mx_printstr(" + ");
             j++;
         }

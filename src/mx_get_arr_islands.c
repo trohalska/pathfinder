@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 static void get_word(int *i, char **arr_is, char *tmp);
 

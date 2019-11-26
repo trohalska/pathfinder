@@ -1,4 +1,4 @@
-#include "libmxpath.h"
+#include "libmx.h"
 
 int **mx_get_matrix(int G, char *str, char **arr_islands)
 {
