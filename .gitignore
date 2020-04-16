@@ -1,4 +1,5 @@
-.DS_Store
+*.DS_Store
 main.c
-libmx.a
-./obj
+*libmx.a
+*obj*
+
